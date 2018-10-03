@@ -28,7 +28,7 @@ class TrainConfig(object):
         self.learning_rate_decay_rate =0.99
         self.opt_type='Adam'
 
-        self.batch_size         = 100
+        self.batch_size         = 1000
 
 
         # the number of step between evaluation
