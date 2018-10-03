@@ -86,7 +86,9 @@ def train(dataloader_train,dataloader_test,trainconfig_worker):
     file_writer.add_graph(tf.get_default_graph())
 
     ## Summary for Tensorboard visualization
-    tb_summary_accuracy = tf.summary.scalar('accuracy', tf_pred_accuracy)
+    tb_summary_accuracy_train = tf.summary.scalar('accuracy_train', tf_pred_accuracy)
+    tb_summary_accuracy_test = tf.summary.scalar('accuracy_test', tf_pred_accuracy)
+
     tb_summary_cost     = tf.summary.scalar('loss', loss_op)
 
 
@@ -155,16 +157,23 @@ def train(dataloader_train,dataloader_test,trainconfig_worker):
 
 
 
-                tb_summary_cost_result, tb_summary_accuracy_result  = sess.run([tb_summary_cost,tb_summary_accuracy],
-                                                                               feed_dict={model_in: image_train_numpy,
-                                                                                          labels: label_train_numpy,
-                                                                                          dropout_keeprate_node:1.0})
+                tb_summary_cost_result, tb_summary_accuracy_train_result  = sess.run([tb_summary_cost,tb_summary_accuracy_train],
+                                                                                       feed_dict={model_in: image_train_numpy,
+                                                                                                  labels: label_train_numpy,
+                                                                                                  dropout_keeprate_node:1.0})
+
+                tb_summary_accuracy_test_result  = sess.run(tb_summary_accuracy_test,
+                                                               feed_dict={model_in: image_test_numpy,
+                                                                          labels: label_test_numpy,
+                                                                          dropout_keeprate_node:1.0})
+                
                 file_writer.add_summary(tb_summary_cost_result,epoch)
-                file_writer.add_summary(tb_summary_accuracy_result,epoch)
+                file_writer.add_summary(tb_summary_accuracy_train_result,epoch)
+                file_writer.add_summary(tb_summary_accuracy_test_result,epoch)
 
 
                 print('At epoch = %d, elapsed_time = %.1f ms' % (epoch, elapsed_time))
-                print("Training set avg cost (avg over minibatches)=%.2f" % avg_cost)
+                # print("Training set avg cost (avg over minibatches)=%.2f" % avg_cost)
                 print("Training set Err rate (avg over minibatches)= %.2f %%  " % (train_error_rate[rate_record_index]))
                 print("Test set Err rate (total batch)= %.2f %%" % (test_error_rate[rate_record_index]))
                 print("--------------------------------------------")
