@@ -42,10 +42,8 @@ def train(dataloader_train,dataloader_test,trainconfig_worker):
                               shape=[None])
 
 
-    with tf.variable_scope(name_or_scope='model',
-                           values=[model_in, labels]):
 
-
+    with tf.variable_scope(name_or_scope='model',values=[model_in, labels]):
         dropout_keeprate_node = tf.placeholder(dtype=model_config['image_dtype'])
 
         model_out = get_model(model_in              =model_in,
@@ -68,24 +66,21 @@ def train(dataloader_train,dataloader_test,trainconfig_worker):
 
 
     # traning ops =============================================
-    loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels=labels,
-                                                                            logits=model_out))
+    loss_op = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels=labels,logits=model_out))
     train_op = tf.train.AdamOptimizer(learning_rate=trainconfig_worker.learning_rate).minimize(loss=loss_op)
 
 
     with tf.name_scope('model_out'):
         model_pred = tf.nn.softmax(model_out)
-
     with tf.name_scope('eval_performance'):
         error             = tf.equal(tf.argmax(model_pred,1),labels)
         tf_pred_accuracy     = tf.reduce_mean(tf.cast(error,tf.float32))
 
 
-    ## file writing for Tensorboard
+    # For Tensorboard ===========================================
     file_writer = tf.summary.FileWriter(logdir=trainconfig_worker.tflogdir)
     file_writer.add_graph(tf.get_default_graph())
 
-    ## Summary for Tensorboard visualization
     tb_summary_accuracy_train = tf.summary.scalar('accuracy_train', tf_pred_accuracy)
     tb_summary_accuracy_test = tf.summary.scalar('accuracy_test', tf_pred_accuracy)
 
@@ -132,7 +127,6 @@ def train(dataloader_train,dataloader_test,trainconfig_worker):
 
             start_time = time.time()
             image_train_batch, label_train_batch    = sess.run([images_train_op, labels_train_op])
-
             _, minibatch_cost = sess.run([train_op,loss_op],
                                          feed_dict={model_in:  image_train_batch,
                                                     labels:     label_train_batch,
