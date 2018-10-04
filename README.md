@@ -21,8 +21,6 @@ according to the OOP philosophy.
 
 ```
 
-![alt text](https://github.com/jwkanggist/tf-code-pattern-lenet5/blob/develop/images/tf_pattern_uml2.png)
-
 
 ## How to Run
 Training
