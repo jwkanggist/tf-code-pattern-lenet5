@@ -20,7 +20,9 @@ according to the OOP philosophy.
 - eval.py           : Evaluating the model with respect to test dataset by loading a ckpt
 
 ```
-  
+
+![alt text](https://github.com/jwkanggist/tf-code-pattern-lenet5/images/tf_pattern_uml2.jpg)
+
 
 ## How to Run
 Training
