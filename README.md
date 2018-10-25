@@ -20,6 +20,8 @@ according to the OOP philosophy.
 - eval.py           : Evaluating the model with respect to test dataset by loading a ckpt
 
 ```
+## Model Table
+![alt text](https://github.com/jwkanggist/tf-code-pattern-lenet5/blob/develop/images/layer_table.png)
 
 
 ## How to Run
