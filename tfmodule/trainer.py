@@ -84,7 +84,7 @@ def train(dataloader_train,dataloader_test,trainconfig_worker):
     tb_summary_accuracy_train = tf.summary.scalar('accuracy_train', tf_pred_accuracy)
     tb_summary_accuracy_test = tf.summary.scalar('accuracy_test', tf_pred_accuracy)
 
-    tb_summary_cost     = tf.summary.scalar('loss', loss_op)
+    tb_summary_cost         = tf.summary.scalar('loss', loss_op)
 
 
 
