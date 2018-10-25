@@ -32,7 +32,7 @@ class TrainConfig(object):
 
 
         # the number of step between evaluation
-        self.display_step   = 5
+        self.display_step   = 50
         self.train_data_size      = 5000
         self.test_data_size       = 1000
 
